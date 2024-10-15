@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://codingal.com https://codingal.s3.amazonaws.com/ https://www.codingal.com;"
+    />
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+    <link href="./style.css" rel="stylesheet" />
+
+    <title>Desktop Recorder</title>
+    <style>
+      body {
+        font-family: Verdana, sans-serif;
+        text-align: center;
+        background-color: #ffffff;
+        color: #242424;
+        overflow: hidden;
+      }
+      .operators {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        column-gap: 18px;
+      }
+      #video-container {
+        position: relative;
+        z-index: -1;
+        margin-top: 10px;
+        border: 1px dashed #80808070;
+        height: 200px;
+        width: 355px;
+        margin: 0 auto;
+        background-color: #f5f5f5;
+      }
+      video {
+        height: 200px;
+        width: 355px;
+      }
+      #video-placeholder {
+        position: absolute;
+        top: 40%;
+        left: 15%;
+        color: #979797;
+        font-weight: 600;
+      }
+      button {
+        outline: none;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-weight: 600;
+        color: white;
+        background-color: #ff7e67;
+      }
+      .btn-secondary {
+        background-color: #bbbbbb;
+        color: #282828;
+      }
+      #start-btn {
+        margin-right: 10px;
+      }
+      .title {
+        font-weight: 700;
+        font-size: 20px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        row-gap: 15px;
+      }
+      form > input {
+        padding: 10px;
+      }
+      #form-container {
+        display: none;
+        width: 260px;
+        margin: 0 auto;
+      }
+      #uploaded-link {
+        text-align: left;
+      }
+      #recording-indicator {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        row-gap: 5px;
+        padding: 8px 0;
+        font-weight: 600;
+        color: #525252;
+      }
+      #recording-indicator > div {
+        display: inline-block;
+      }
+      #recording-indicator > span {
+        margin-left: 3px;
+        display: inline-block;
+        font-size: 10px;
+        animation: blink 1s infinite;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        margin-bottom: 10px;
+        width: 100%;
+        font-size: 14px;
+      }
+
+      /* Keyframes to toggle visibility */
+      @keyframes blink {
+        0% {
+          opacity: 1; /* Visible */
+        }
+        50% {
+          opacity: 0; /* Invisible */
+        }
+        100% {
+          opacity: 1; /* Visible again */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p class="title">⚡Desktop Recorder</p>
+
+    <div class="modal micromodal-slide" id="electron-screen-picker" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1">
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-1-title"
+        >
+          <header class="modal__header">
+            <h2 class="modal__title" id="modal-1-title">Select a screen to record:</h2>
+          </header>
+          <main class="modal__content" id="modal-1-content">
+            <div class="ibox __electron-screen-picker-content">
+              <div class="ibox-content">
+                <div id="sources" class="__electron-list"></div>
+              </div>
+            </div>
+          </main>
+          <button
+            class="modal__btn"
+            data-micromodal-close
+            aria-label="Close this dialog window"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="recording-indicator">
+      <div>The recording has started</div>
+      <span id="indicator-beep"> 🟢</span>
+    </div>
+
+    <div id="video-container">
+      <video muted></video>
+      <p id="video-placeholder">The recorder is currently turned off!</p>
+    </div>
+
+    <div id="form-container">
+      <div id="progress-info">
+        <p id="progress">Progress: 0%</p>
+      </div>
+      <form id="upload-form">
+        <input type="text" placeholder="Enter the classroom ID" id="class-id" />
+        <button type="submit">⚡ Start uploading</button>
+        <button
+          class="btn-secondary"
+          id="reset-btn-2"
+          type="button"
+          onclick="resetRecorder()"
+        >
+          Record again
+        </button>
+      </form>
+    </div>
+
+    <div class="operators">
+      <button id="start-btn" type="button">Start Recording Now</button>
+      <button id="stop-btn" type="button" style="display: none">
+        Stop and Save Recording
+      </button>
+      <button id="upload-btn" type="button" style="display: none">
+        ⚡ Upload recording
+      </button>
+      <button id="save-btn" class="btn-secondary" type="button" style="display: none">
+        Save recording again
+      </button>
+      <button
+        class="btn-secondary"
+        id="reset-btn"
+        type="button"
+        onclick="resetRecorder()"
+        style="display: none"
+      >
+        Record again
+      </button>
+    </div>
+    <footer>Built with ❤️ by Engineers.</footer>
+    <script src="renderer.js"></script>
+  </body>
+</html>

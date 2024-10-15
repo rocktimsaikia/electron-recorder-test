@@ -1,0 +1,27 @@
+{
+  "name": "desktop-recorder",
+  "version": "0.0.1",
+  "description": "desktop app to record and upload recordings.",
+  "main": "main.js",
+  "author": "Rocktim Saikia",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.7",
+    "electron-util": "^0.18.1"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build": "rm -rf dist && electron-builder -w"
+  },
+  "build": {
+    "win": {
+      "icon": "build/icon.ico"
+    }
+  },
+  "prettier": {
+    "printWidth": 90
+  },
+  "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
+}
